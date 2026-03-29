@@ -1,0 +1,12 @@
+.env
+*.db
+data/
+reports/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+.git/
+test_*.py
+pydantic_demo.py

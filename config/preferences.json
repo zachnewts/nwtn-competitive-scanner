@@ -1,0 +1,23 @@
+{
+  "excluded_companies": [
+    "N/A \u2014 industry article",
+    "Accenture"
+  ],
+  "excluded_domains": [
+    "wikipedia.org",
+    "linkedin.com"
+  ],
+  "boosted_queries": [],
+  "deprecated_queries": [],
+  "scoring_overrides": {},
+  "notes": [
+    {
+      "date": "2026-03-28",
+      "note": "Initial setup. Excluding generic industry articles by default."
+    },
+    {
+      "date": "2026-03-28",
+      "note": "Great signals overall, Inspire11 is the one to watch"
+    }
+  ]
+}
