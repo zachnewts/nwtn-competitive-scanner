@@ -52,34 +52,47 @@ REPORT_DIR = os.getenv("REPORT_DIR", "reports")
 # signal is interpreted. If NWTN's positioning changes, update this and all future
 # scans will automatically reflect the new focus.
 NWTN_POSITIONING = """
-NWTN AI is a CPG-focused AI consultancy positioned as "your AI department without
-the full-time hire." We serve mid-market CPG brands ($5M-$200M revenue) who need
-AI strategy, implementation, and ongoing support but can't justify a full internal
-AI team. Core services: AI readiness assessments, workflow automation, custom agent
-development, and fractional AI leadership.
+NWTN AI is a vendor-neutral AI integrator for mid-market CPG brands ($5M-$100M
+revenue). The founder has 10+ years of CPG brand management experience (Hershey,
+Sonoma Brands, Navitas Organics, Mezzetta). NWTN is NOT a dev shop and does NOT
+sell proprietary software.
+
+What NWTN does:
+- Assesses a brand's workflows and identifies where AI creates value
+- Recommends the RIGHT existing AI tools (vendor-neutral — no platform to sell)
+- Scopes implementation, manages vendors, and oversees integration
+- Builds custom solutions ONLY when nothing off-the-shelf works
+- Provides ongoing fractional AI leadership
+
+Target client profile:
+- $5M-$100M revenue emerging/natural/better-for-you CPG brands
+- Think: natural food, functional beverage, clean beauty, supplements
+- NOT Fortune 500, NOT enterprise, NOT global multinationals
+- Brands that need AI help but can't justify a full-time AI hire
 
 Key differentiators:
-- Deep CPG domain expertise (brand management, trade marketing, supply chain)
-- Hands-on implementation, not just strategy decks
-- Fractional model makes enterprise AI accessible to mid-market
-- Focus on measurable ROI within 90 days
+- Vendor-neutral: recommends what's best, not what they built
+- Operator credibility: founder ran brands, not just technology
+- Integration layer: the connective tissue between brand and AI tools
+- Hands-on implementation, not strategy decks
+- Mid-market pricing for mid-market brands
 """
 
 # ─── Search Queries ──────────────────────────────────────────────────────────
-# Each string becomes a separate Tavily API call. The queries are designed to
-# cast a wide net across different angles of the competitive landscape:
-# - Direct competitors (other AI consulting firms in CPG)
-# - Adjacent competitors (general AI agencies moving into CPG)
-# - Market positioning (fractional/mid-market AI services)
-# - Vertical-specific (food, beverage, DTC brands)
+# Designed to find the actual competitive landscape for NWTN AI:
+# - Vendor-neutral AI integration for mid-market / emerging CPG brands
+# - Small shops and solo consultants, NOT enterprise firms
+# - The "integration layer" positioning — recommend tools, implement, build custom
+# - Natural, better-for-you, DTC, emerging brand verticals specifically
 SEARCH_QUERIES = [
-    "AI consulting CPG brands",
-    "AI integrator food beverage companies",
-    "fractional AI officer CPG",
-    "AI automation mid-market consumer packaged goods",
-    "AI agency food and beverage DTC",
-    "CPG AI consulting firm",
-    "AI workflow automation consumer brands",
+    "AI implementation consultant emerging CPG brands",
+    "vendor neutral AI integrator consumer packaged goods",
+    "AI strategy consultant natural food brands",
+    "AI tools implementation mid-market CPG",
+    "AI consultant DTC food beverage brands",
+    "AI workflow automation emerging consumer brands",
+    "freelance AI consultant CPG food beverage",
+    "AI agency small CPG brands implementation",
 ]
 
 # ─── Scoring Weights ─────────────────────────────────────────────────────────

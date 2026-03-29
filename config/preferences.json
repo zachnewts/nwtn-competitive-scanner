@@ -1,11 +1,20 @@
 {
   "excluded_companies": [
-    "N/A \u2014 industry article",
-    "Accenture"
+    "N/A — industry article",
+    "Accenture",
+    "Alpha Apex Group",
+    "Tredence",
+    "Sigmoid",
+    "Fractal Analytics",
+    "EightX"
   ],
   "excluded_domains": [
     "wikipedia.org",
-    "linkedin.com"
+    "linkedin.com",
+    "mckinsey.com",
+    "bain.com",
+    "deloitte.com",
+    "accenture.com"
   ],
   "boosted_queries": [],
   "deprecated_queries": [],
@@ -17,7 +26,11 @@
     },
     {
       "date": "2026-03-28",
-      "note": "Great signals overall, Inspire11 is the one to watch"
+      "note": "Inspire11 is the one to watch"
+    },
+    {
+      "date": "2026-03-28",
+      "note": "Feedback session: scanner was too focused on fractional AI leadership, missing the integration layer positioning. Rewrote queries to target vendor-neutral AI integration for mid-market/emerging CPG. Sharpened scoring — enterprise CPG now scores near zero. Excluded enterprise firms (Accenture, Sigmoid, Tredence, Fractal, Alpha Apex, EightX) and global consultancy domains."
     }
   ]
 }

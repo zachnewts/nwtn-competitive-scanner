@@ -68,8 +68,22 @@ def generate_report(
 
     print(f"[REPORT] Generating report: {filename}")
 
-    new_signals = [s for s in signals if s.is_new]
-    updated_signals = [s for s in signals if not s.is_new]
+    # Split by new vs. updated, then apply the 40% threshold
+    threshold = config.CLASSIFICATION_THRESHOLDS["adjacent_threat"]
+
+    all_new = [s for s in signals if s.is_new]
+    all_updated = [s for s in signals if not s.is_new]
+
+    new_above = [s for s in all_new if s.overlap_score >= threshold]
+    updated_above = [s for s in all_updated if s.overlap_score >= threshold]
+
+    # Below the line: top 5 that didn't make the cut (exclude industry articles)
+    below_all = [
+        s for s in signals
+        if s.overlap_score < threshold and s.company_name != "N/A — industry article"
+    ]
+    below_all.sort(key=lambda s: s.overlap_score, reverse=True)
+    below_top5 = below_all[:5]
 
     exec_summary = _generate_executive_summary(signals, new_count, updated_count)
 
@@ -86,21 +100,32 @@ def generate_report(
     _set_margins(content_section)
     _add_running_header(content_section)
 
-    if new_signals:
+    if new_above:
         _add_section_heading(doc, "New Signals")
-        for i, signal in enumerate(new_signals):
+        for i, signal in enumerate(new_above):
             _add_signal_entry(doc, signal)
-            if i < len(new_signals) - 1:
+            if i < len(new_above) - 1:
                 _add_divider(doc)
 
-    if updated_signals:
+    if updated_above:
         _add_spacer(doc)
         _add_section_heading(doc, "Updated Signals")
         _add_muted_text(doc, "Previously identified entities with new activity this scan.")
-        for i, signal in enumerate(updated_signals):
+        for i, signal in enumerate(updated_above):
             _add_signal_entry_light(doc, signal)
-            if i < len(updated_signals) - 1:
+            if i < len(updated_above) - 1:
                 _add_divider(doc)
+
+    if below_top5:
+        _add_spacer(doc)
+        _add_section_heading(doc, "Below the Line")
+        _add_muted_text(
+            doc,
+            f"Top 5 signals below the {threshold:.0%} threshold. "
+            f"{len(below_all)} total signals scored below the cutoff."
+        )
+        for signal in below_top5:
+            _add_below_the_line_entry(doc, signal)
 
     _add_spacer(doc)
     _add_metadata_section(doc, queries_run, total_raw_results, new_count, updated_count)
@@ -507,6 +532,38 @@ def _add_signal_entry_light(doc: Document, signal: CompetitiveSignal) -> None:
     url_para.paragraph_format.space_after = Pt(4)
     run = url_para.add_run(signal.url)
     run.font.size = Pt(7.5)
+    run.font.color.rgb = MID_GRAY
+    run.font.name = FONT_BODY
+
+
+def _add_below_the_line_entry(doc: Document, signal: CompetitiveSignal) -> None:
+    """Add a minimal one-line entry for signals below the threshold."""
+    para = doc.add_paragraph()
+    para.paragraph_format.space_before = Pt(4)
+    para.paragraph_format.space_after = Pt(4)
+
+    # Score percentage
+    score_run = para.add_run(f"{signal.overlap_score:.0%}")
+    score_run.font.size = Pt(9)
+    score_run.font.color.rgb = MID_GRAY
+    score_run.font.name = FONT_BODY
+    score_run.bold = True
+
+    para.add_run("  —  ")
+
+    # Company name
+    name_run = para.add_run(signal.company_name)
+    name_run.font.size = Pt(9)
+    name_run.font.color.rgb = DARK_GRAY
+    name_run.font.name = FONT_BODY
+    name_run.bold = True
+
+    # Description on the next line
+    desc_para = doc.add_paragraph()
+    desc_para.paragraph_format.space_after = Pt(2)
+    desc_para.paragraph_format.left_indent = Inches(0.3)
+    run = desc_para.add_run(signal.description)
+    run.font.size = Pt(8.5)
     run.font.color.rgb = MID_GRAY
     run.font.name = FONT_BODY
 

@@ -148,41 +148,67 @@ result, score overlap across four dimensions AND extract company details.
 
 SCORING DIMENSIONS (score each 0.0 to 1.0):
 
-1. MARKET OVERLAP — Do they serve the same customers?
-   - 1.0: mid-market CPG brands ($5M-$200M) — identical to NWTN
-   - 0.5: enterprise CPG (same vertical, different company size)
-   - 0.3: mid-market non-CPG (same size, different vertical)
+1. MARKET OVERLAP — Do they serve the same customers NWTN serves?
+   NWTN's clients are $5M-$100M emerging/natural/better-for-you CPG brands.
+   - 1.0: mid-market emerging/natural CPG brands — identical to NWTN
+   - 0.7: mid-market CPG broadly (not specifically natural/emerging)
+   - 0.3: mid-market non-CPG (same size, wrong vertical)
+   - 0.1: enterprise CPG (Coca-Cola, P&G, Nestlé) — COMPLETELY different buyer
    - 0.0: unrelated market
+   IMPORTANT: Enterprise CPG is NOT a meaningful overlap. A company serving
+   Fortune 500 CPG brands is in a different universe from NWTN. Score 0.1 max.
 
-2. SERVICE OVERLAP — Do they offer the same thing?
-   - 1.0: vendor-neutral AI integration + fractional leadership — identical to NWTN
-   - 0.6: AI consulting (general, not vendor-neutral)
-   - 0.4: dev shop / custom AI development
-   - 0.2: SaaS product (tool, not services)
+2. SERVICE OVERLAP — Do they offer what NWTN offers?
+   NWTN is the INTEGRATION LAYER — vendor-neutral, recommends tools, implements.
+   - 1.0: vendor-neutral AI integration + implementation — identical to NWTN
+   - 0.7: AI consulting + implementation (but may push their own tools)
+   - 0.5: AI strategy/advisory only (no implementation)
+   - 0.3: dev shop / custom builds only (no strategy or tool selection)
+   - 0.1: proprietary SaaS platform (selling their own product, not integrating)
    - 0.0: unrelated service
+   IMPORTANT: A company selling their OWN proprietary AI platform/software is
+   NOT a competitor — they're a potential tool NWTN might recommend. Score 0.1 max.
 
-3. POSITIONING OVERLAP — Do they position themselves similarly?
-   - 1.0: operator credibility (industry experience) + AI expertise — identical to NWTN
-   - 0.4: technical-first positioning (engineering-led, no domain experience)
-   - 0.2: generic "digital transformation" consulting
+3. POSITIONING OVERLAP — Do they position themselves like NWTN?
+   NWTN positions with OPERATOR CREDIBILITY (ran CPG brands) + AI expertise.
+   - 1.0: CPG operator background + AI expertise — identical to NWTN
+   - 0.7: industry background (non-CPG) + AI expertise
+   - 0.4: technical-first (engineering-led, no brand/operator experience)
+   - 0.2: generic "digital transformation" or "innovation consulting"
    - 0.0: unrelated positioning
+   IMPORTANT: Data science firms, analytics platforms, and "AI-powered" SaaS
+   companies have fundamentally different positioning. Score 0.2 max.
 
 4. CREDIBILITY — How strong are their proof points?
-   - 1.0: named brand experience in CPG / F&B (worked at Nestlé, P&G, etc.)
-   - 0.7: published case studies with measurable results
+   - 1.0: named experience at mid-market CPG brands + measurable AI results
+   - 0.7: published case studies with measurable results at relevant brands
+   - 0.5: named brand experience but at enterprise level (different buyer)
    - 0.3: claims expertise but no evidence (no case studies, no named clients)
    - 0.0: no credibility signals found
 
 COMPLEMENTARY CHECK:
-   Set is_complementary=true ONLY if their offering could work WITH NWTN rather
-   than against it — e.g., a SaaS tool NWTN could recommend to clients, or a
-   consultancy in an adjacent vertical that could refer business.
+   Set is_complementary=true if their offering could work WITH NWTN rather
+   than against it:
+   - A SaaS tool NWTN could recommend to clients (e.g., CPG-specific AI platform)
+   - A consultancy in an adjacent vertical that could refer business
+   - An enterprise firm that would never serve NWTN's mid-market clients
+   Enterprise firms, proprietary platforms, and data science companies are
+   usually complementary, not competitive.
+
+CRITICAL FILTERS — score LOW or mark irrelevant if:
+- The company primarily serves enterprise / Fortune 500 clients
+- The company sells proprietary software/platforms (they're a tool, not a competitor)
+- The company is a global consultancy (Accenture, Bain, McKinsey, Deloitte)
+- The company is based outside the US with no US mid-market CPG presence
+- The page is a general industry article with no specific company
 
 GENERAL GUIDELINES:
-- If the page is a general industry article with no specific company, use
-  company_name "N/A — industry article" and score all dimensions 0.0.
-- Score dimensions independently. A company can have high service overlap
-  but zero market overlap (e.g., same service, wrong vertical).
+- If the page is a general industry article, use company_name
+  "N/A — industry article" and score all dimensions 0.0.
+- Score dimensions independently. Be HARSH — most companies found will NOT
+  be meaningful competitors to NWTN. A true competitor needs to overlap on
+  market (mid-market CPG) AND service (vendor-neutral integration) AND
+  positioning (operator credibility). That combination is rare.
 - Always explain your scores in overlap_reasoning.
 
 You MUST call the record_signal tool with your analysis."""
